@@ -43,10 +43,25 @@ async function updateWKItems() {
     let kanjiText = `[\n${kanji.join(",\n")}\n]`;
     let vocabText = `[\n${vocab.join(",\n")}\n]`;
 
-    const errorHandler = (err) => (err ? console.error(err) : undefined);
+    // Only write if there have been changes
+    let last_update = fs.readFileSync(
+        path.resolve(__dirname, "./last_update.txt"),
+        "utf8",
+    );
+    for (let item of items) {
+        if (item.data_updated_at > last_update) break;
+        return;
+    }
 
+    const errorHandler = (err) => (err ? console.error(err) : undefined);
     fs.writeFile(`${__dirname}/kanji.json`, kanjiText, "utf-8", errorHandler);
     fs.writeFile(`${__dirname}/vocab.json`, vocabText, "utf-8", errorHandler);
+    fs.writeFile(
+        `${__dirname}/last_update.txt`,
+        new Date().toISOString(),
+        "utf-8",
+        errorHandler,
+    );
 }
 
 function zip() {
