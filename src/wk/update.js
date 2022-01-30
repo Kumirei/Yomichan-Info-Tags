@@ -4,6 +4,11 @@ require("dotenv").config();
 const archiver = require("archiver");
 const path = require("path");
 
+if (!process.env.WK_API_TOKEN) {
+    console.log("No API token");
+    return;
+}
+
 const config = {
     headers: {
         Authorization: `Bearer ${process.env.WK_API_TOKEN}`,
