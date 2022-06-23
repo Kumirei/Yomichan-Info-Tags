@@ -1,0 +1,30 @@
+name: Update dictionaries
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # Trigger daily at midnight
+    - cron: "0 0 * * *"
+
+env:
+  WK_API_TOKEN: ${{ secrets.WK_API_TOKEN }}
+
+jobs:
+  update_dictionaries:
+    name: Update Dictionaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm update-wk-dict
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update WK level tags

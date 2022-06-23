@@ -1,1 +1,10 @@
-{"dependencies":{"archiver":"^5.3.0","axios":"^0.25.0","dotenv":"^14.3.2"}}
+{
+  "dependencies": {
+    "archiver": "^5.3.0",
+    "axios": "^0.25.0",
+    "dotenv": "^14.3.2"
+  },
+  "scripts": {
+    "update-wk-dict": "node ./src/wk/update.js"
+  }
+}
